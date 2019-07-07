@@ -103,3 +103,28 @@ local.properties
 .sts4-cache/
 
 # End of https://www.gitignore.io/api/eclipse
+/.settings
+/produto/.mvn
+/auth/.mvn
+/cliente/bin
+/cliente/mvnw.cmd
+/cliente/mvnw
+/auth/mvnw.cmd
+/auth/mvnw
+/core/mvnw.cmd
+/core/mvnw
+/discovery/.project
+/discovery/*.factorypath
+/discovery/*.classpath
+/discovery/target
+/discovery/.settings
+/gateway/.mvn
+/gateway/mvnw
+/gateway/mvnw.cmd
+/produto/bin
+/produto/mvnw.cmd
+/produto/mvnw
+/token/.mvn
+/token/mvnw
+/token/mvnw.cmd
+/.project
