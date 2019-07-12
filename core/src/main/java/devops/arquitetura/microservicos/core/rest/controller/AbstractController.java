@@ -1,6 +1,7 @@
 package devops.arquitetura.microservicos.core.rest.controller;
 
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -16,5 +17,9 @@ public abstract class AbstractController<T extends Domain<?>> {
 
     protected Function<Page<T>, ResponseEntity<Page<T>>> recursosNaoEncontrado() {
         return page -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(page);
+    }
+
+    protected Predicate<Page<T>> porResultadosVazios() {
+        return page -> page.getContent().isEmpty();
     }
 }
