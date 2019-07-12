@@ -10,11 +10,13 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
 import devops.arquitetura.microservicos.core.domain.model.shared.Domain;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
+@Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public final class Cidade implements Domain<Long> {
 

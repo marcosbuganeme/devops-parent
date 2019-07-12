@@ -1,11 +1,13 @@
 package devops.arquitetura.microservicos.core.domain.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,12 +16,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import devops.arquitetura.microservicos.core.domain.model.embedded.Historico;
+import devops.arquitetura.microservicos.core.domain.model.embedded.ItemPedidoPK;
 import devops.arquitetura.microservicos.core.domain.model.shared.Domain;
 import lombok.Builder;
 import lombok.Data;
@@ -38,13 +44,26 @@ public final class Produto implements Domain<Long> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+	@Column(nullable = false)
+	@EqualsAndHashCode.Include
+	@NotNull(message = "Campo 'código' é obrigatório!")
+	private Integer codigo;
+
+	@Column(nullable = false)
+	@EqualsAndHashCode.Include
+	@NotNull(message = "Campo 'ncm' é obrigatório!")	
+	private Integer ncm;
+
     @Column(nullable =  false)
     @NotBlank(message = "Campo 'nome' é obrigatório!")
     private String nome;
 
-    @Column(nullable = false)
-    @NotNull(message = "Campo 'preço' é obrigatório!")
-    private BigDecimal preco;
+    @Embedded
+    private Historico historico;
+
+    @Column(name = "preco_unitario", nullable = false)
+    @NotNull(message = "Campo 'preço unitário' é obrigatório!")
+    private BigDecimal precoUnitario;
 
     @JsonIgnore
     @OneToMany(mappedBy = "id.produto")
@@ -52,7 +71,7 @@ public final class Produto implements Domain<Long> {
 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "id_produto"), inverseJoinColumns = @JoinColumn(name = "id_categoria"))
+    @JoinTable(name = "produto_categoria", joinColumns = @JoinColumn(name = "id_produto"), inverseJoinColumns = @JoinColumn(name = "id_categoria"))
     private List<Categoria> categorias;
 
     {
@@ -60,9 +79,19 @@ public final class Produto implements Domain<Long> {
     	categorias = new ArrayList<>();
     }
 
+	@PrePersist
+	private void triggerInsert() {
+		historico.setCadastrado(LocalDateTime.now());
+	}
+
+	@PreUpdate
+	private void triggerUpdate() {
+		historico.setModificado(LocalDateTime.now());
+	}
+
     @Transient
     @JsonIgnore
-    public List<Pedido> pedidos() {
+    public List<Pedido> todosItensVinculados() {
 
     	return itens
 				.stream()

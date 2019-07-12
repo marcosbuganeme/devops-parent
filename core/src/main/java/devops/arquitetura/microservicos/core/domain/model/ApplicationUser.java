@@ -9,17 +9,17 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import devops.arquitetura.microservicos.core.domain.model.shared.Domain;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Builder
 @NoArgsConstructor
@@ -39,13 +39,12 @@ public class ApplicationUser implements Domain<Long> {
 	@NotBlank(message = "Campo 'usuário' deve ser preenchido")
 	private String username;
 
+	@JsonIgnore
 	@ToString.Exclude
 	@Column(nullable = false)
 	@NotBlank(message = "Campo 'senha' deve ser preenchido")
 	private String password;
 
-	@Column(nullable = false)
-	@NotBlank(message = "Campo 'regra' deve ser preenchido")
 	private String role;
 
 	public ApplicationUser(@NotNull ApplicationUser applicationUser) {

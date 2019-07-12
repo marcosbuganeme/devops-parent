@@ -14,11 +14,13 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import devops.arquitetura.microservicos.core.domain.model.shared.Domain;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
+@Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public final class Estado implements Domain<Long> {
 

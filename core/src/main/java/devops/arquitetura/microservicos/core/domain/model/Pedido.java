@@ -1,11 +1,13 @@
 package devops.arquitetura.microservicos.core.domain.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,7 +43,7 @@ public final class Pedido implements Domain<Long> {
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	private LocalDateTime instante;
 
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pedido")
 	private Pagamento pagamento;
 
 	@ManyToOne
@@ -52,6 +54,8 @@ public final class Pedido implements Domain<Long> {
 	@JoinColumn(name = "id_endereco_entrega", nullable = false)
 	private Endereco enderecoDeEntrega;
 
+	private BigDecimal total;
+
 	@OneToMany(mappedBy = "id.pedido")
 	private List<ItemPedido> itens;
 
@@ -59,7 +63,16 @@ public final class Pedido implements Domain<Long> {
 		itens = new ArrayList<>();
 	}
 
-	private @PrePersist void informaInstante() {
+	private @PrePersist void triggerInsert() {
+		fecharPedido();
 		instante = LocalDateTime.now();
+	}
+
+	private void fecharPedido() {
+
+		itens
+		.stream()
+		.map(ItemPedido::getValor)
+		.forEach(precoPorItem -> total = total.add(precoPorItem));
 	}
 }
