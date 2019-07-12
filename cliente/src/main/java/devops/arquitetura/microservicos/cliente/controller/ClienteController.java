@@ -3,7 +3,6 @@ package devops.arquitetura.microservicos.cliente.controller;
 import java.net.URI;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 import javax.validation.Valid;
 
@@ -79,9 +78,5 @@ public class ClienteController extends AbstractController<Cliente> {
                 .filter(porResultadosVazios())
                 .map(recursosNaoEncontrado())
                 .orElse(ResponseEntity.ok(resultados));
-    }
-
-    private Predicate<Page<Cliente>> porResultadosVazios() {
-        return page -> page.getContent().isEmpty();
     }
 }
