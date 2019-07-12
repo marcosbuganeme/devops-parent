@@ -15,22 +15,15 @@ import devops.arquitetura.microservicos.token.config.SecurityTokenConfig;
 import devops.arquitetura.microservicos.token.converter.TokenConverter;
 import devops.arquitetura.microservicos.token.creator.TokenCreator;
 import devops.arquitetura.microservicos.token.filter.JwtTokenAuthorizationFilter;
+import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SecurityWebConfig extends SecurityTokenConfig {
 
 	private final TokenCreator tokenCreator;
 	private final TokenConverter tokenConverter;
-	private final UserDetailsService userDetailsService;
-
-	public @Autowired SecurityWebConfig(TokenCreator tokenCreator, 
-										TokenConverter tokenConverter,
-										@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
-
-		this.tokenCreator = tokenCreator;
-		this.tokenConverter = tokenConverter;
-		this.userDetailsService = userDetailsService;
-	}
+	private final @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService;
 
 	protected @Override void configure(HttpSecurity http) throws Exception {
 

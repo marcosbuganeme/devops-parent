@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import devops.arquitetura.microservicos.core.config.ConstanteConfig;
 
 @Configuration
-@EntityScan(basePackages = { ConstanteConfig.MODEL})
-@EnableJpaRepositories(basePackages = { ConstanteConfig.REPOSITORY })
+@EntityScan(basePackages = ConstanteConfig.MODEL)
+@EnableJpaRepositories(basePackages = ConstanteConfig.REPOSITORY)
 public class JpaConfig {}
