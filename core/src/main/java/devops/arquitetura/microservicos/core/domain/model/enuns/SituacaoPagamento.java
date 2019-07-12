@@ -13,7 +13,7 @@ public enum SituacaoPagamento {
 
 	PENDENTE(1, "Pendente"),
 
-	QUITADO(2, "Quitado"),
+	CONFIRMADO(2, "Confirmado"),
 
 	CANCELADO(3, "Cancelado");
 
