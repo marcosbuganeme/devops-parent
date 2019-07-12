@@ -47,7 +47,7 @@ public final class ItemPedido implements Domain<ItemPedidoPK> {
 		valor = calculaPrecoPorItemAdicionado();
 	}
 
-	private BigDecimal calculaPrecoPorItemAdicionado() {
+	private @Transient BigDecimal calculaPrecoPorItemAdicionado() {
 		return precoUnitarioDoProduto().multiply(quantidade()).subtract(desconto);
 	}
 	

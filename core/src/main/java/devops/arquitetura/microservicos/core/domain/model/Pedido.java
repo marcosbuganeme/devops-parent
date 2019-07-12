@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -56,7 +57,7 @@ public final class Pedido implements Domain<Long> {
 
 	private BigDecimal total;
 
-	@OneToMany(mappedBy = "id.pedido")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "id.pedido")
 	private List<ItemPedido> itens;
 
 	{
@@ -68,7 +69,7 @@ public final class Pedido implements Domain<Long> {
 		instante = LocalDateTime.now();
 	}
 
-	private void fecharPedido() {
+	private @Transient void fecharPedido() {
 
 		itens
 		.stream()
