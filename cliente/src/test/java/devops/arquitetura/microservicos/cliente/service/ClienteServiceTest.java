@@ -64,13 +64,5 @@ public class ClienteServiceTest {
 		Cliente novoCliente = clienteService.criar(cliente);
 		novoCliente.setEmail("novoemail@emailteste.com");
 		clienteService.alterar(novoCliente.getId(), novoCliente);
-	}
-
-	@Test
-	public void testBuscarPorId() throws Exception {
-	}
-
-	@Test
-	public void testBuscarTodos() throws Exception {
-	}
+	}	
 }
