@@ -1,7 +1,9 @@
 package devops.arquitetura.microservicos.produto.service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -43,6 +45,7 @@ public class ProdutoService {
         produto.setId(id);
 
         return aplicaLog("alterado", produto)
+        			.e()
         		.gravaNoBancoDeDados(produto);
     }
 
@@ -67,6 +70,13 @@ public class ProdutoService {
         log.info("Todos produtos foram pesquisados de forma paginada");
 
         return produtoRepository.findAll(pageable);
+    }
+
+    public List<Produto> buscarPorAutoComplete(String produto) {
+
+    	return produtoRepository
+		    		.readAllByNomeContainingIgnoreCaseOrderByNome(produto)
+		    		.collect(Collectors.toList());
     }
 
     private ProdutoService verificaRegraPorNome(Produto produto) {

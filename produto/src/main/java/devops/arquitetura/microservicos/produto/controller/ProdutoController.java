@@ -1,9 +1,9 @@
 package devops.arquitetura.microservicos.produto.controller;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 import javax.validation.Valid;
 
@@ -57,7 +57,7 @@ public class ProdutoController extends AbstractController<Produto> {
     }
 
     @GetMapping("{id:\\d+}")
-    public ResponseEntity<?> buscarClientePorId(@PathVariable Long id) {
+    public ResponseEntity<?> buscarProdutoPorId(@PathVariable Long id) {
 
         Produto produto = produtoService
                             .buscarPorId(id)
@@ -69,9 +69,22 @@ public class ProdutoController extends AbstractController<Produto> {
                 .map(recursoNaoEncontrado())
                 .orElse(ResponseEntity.ok(produto));
     }
+    
+    @GetMapping()
+    public ResponseEntity<?> buscarPorNomeDoProduto(@PathVariable String produto) {
+
+        List<Produto> resultados = produtoService.buscarPorAutoComplete(produto);
+
+        return Optional
+                .ofNullable(resultados)
+                .filter(results -> results.isEmpty())
+                .map(result -> ResponseEntity.notFound().build())
+                .orElse(ResponseEntity.ok(resultados));
+    }
 
     @GetMapping
-    public ResponseEntity<?> buscarClientesPaginados(@PageableDefault Pageable pageable) {
+    public ResponseEntity<?> buscarProdutosPaginados(@PageableDefault Pageable pageable) {
+
         Page<Produto> resultados = produtoService.buscarTodos(pageable);
 
         return Optional
@@ -79,9 +92,5 @@ public class ProdutoController extends AbstractController<Produto> {
                 .filter(porResultadosVazios())
                 .map(recursosNaoEncontrado())
                 .orElse(ResponseEntity.ok(resultados));
-    }
-
-    private Predicate<Page<Produto>> porResultadosVazios() {
-        return page -> page.getContent().isEmpty();
     }
 }
