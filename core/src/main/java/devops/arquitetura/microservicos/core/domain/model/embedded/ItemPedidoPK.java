@@ -1,4 +1,4 @@
-package devops.arquitetura.microservicos.core.domain.model;
+package devops.arquitetura.microservicos.core.domain.model.embedded;
 
 import java.io.Serializable;
 
@@ -6,11 +6,11 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import lombok.Builder;
+import devops.arquitetura.microservicos.core.domain.model.Pedido;
+import devops.arquitetura.microservicos.core.domain.model.Produto;
 import lombok.Data;
 
 @Data
-@Builder
 @Embeddable
 public class ItemPedidoPK implements Serializable {
 
