@@ -9,7 +9,6 @@ import devops.arquitetura.microservicos.core.config.ConstanteConfig;
 
 @Configuration
 @EnableTransactionManagement
-@EntityScan(basePackages = { ConstanteConfig.MODEL})
-@EnableJpaRepositories(basePackages = { ConstanteConfig.REPOSITORY })
-public class JpaConfig {
-}
+@EntityScan(basePackages = ConstanteConfig.MODEL)
+@EnableJpaRepositories(basePackages = ConstanteConfig.REPOSITORY)
+public class JpaConfig {}
