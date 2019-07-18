@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.netflix.zuul.context.RequestContext;
 
 import devops.arquitetura.microservicos.core.rest.jwt.JwtConfiguration;
@@ -17,6 +19,7 @@ import lombok.SneakyThrows;
 
 public class GatewayJwtTokenAuthorizationFilter extends JwtTokenAuthorizationFilter {
 
+	@Autowired
 	public GatewayJwtTokenAuthorizationFilter(TokenConverter tokenConverter) {
 		super(tokenConverter);
 	}
@@ -24,8 +27,8 @@ public class GatewayJwtTokenAuthorizationFilter extends JwtTokenAuthorizationFil
 	@Override
 	@SneakyThrows
 	protected void doFilterInternal(@NotNull HttpServletRequest request,
-											  @NotNull HttpServletResponse response, 
-											  FilterChain filterChain) throws ServletException, IOException {
+								    @NotNull HttpServletResponse response, 
+								    FilterChain filterChain) throws ServletException, IOException {
 
 		String header = request.getHeader(JwtConfiguration.HEADER_NAME);
 		if (header == null || !header.startsWith(JwtConfiguration.HEADER_PREFIX)) {

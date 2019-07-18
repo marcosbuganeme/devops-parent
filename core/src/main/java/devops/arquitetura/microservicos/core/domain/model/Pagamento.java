@@ -12,17 +12,29 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import devops.arquitetura.microservicos.core.domain.model.enuns.SituacaoPagamento;
 import devops.arquitetura.microservicos.core.domain.model.shared.Domain;
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
 @Entity
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "pagamento")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Inheritance(strategy = InheritanceType.JOINED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @JsonTypeInfo(property = "@type", use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)

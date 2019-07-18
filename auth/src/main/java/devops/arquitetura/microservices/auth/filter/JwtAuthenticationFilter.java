@@ -1,8 +1,10 @@
 package devops.arquitetura.microservices.auth.filter;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -14,6 +16,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -48,10 +52,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 		log.info("Criando objeto de autenticação para '{}'", user);
 
-		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), Collections.emptyList());
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), todasPermissoes(user));
 		token.setDetails(user);
 
 		return authManager.authenticate(token);
+	}
+
+	private Collection<? extends GrantedAuthority> todasPermissoes(ApplicationUser user) {
+		return Stream.of(user).map(ApplicationUser::getRole).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 	}
 
 	@Override

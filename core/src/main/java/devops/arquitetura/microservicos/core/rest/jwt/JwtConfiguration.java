@@ -12,7 +12,7 @@ public class JwtConfiguration {
 
 	public static final int EXPIRATION = 3600;
 	public static final String TYPE = "encrypted";
-	public static final String LOGIN_URL = "/login/**";
+	public static final String LOGIN_URL = "/auth/login";
 	public static final String HEADER_PREFIX = "Bearer ";
 	public static final String HEADER_NAME = "Authorization";
 	public static final String PRIVATE_KEY = "qxBEEQv7E8aviX1KUcdOiF5ve5COUPAr";

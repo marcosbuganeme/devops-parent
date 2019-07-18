@@ -18,23 +18,35 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import devops.arquitetura.microservicos.core.domain.model.embedded.Historico;
 import devops.arquitetura.microservicos.core.domain.model.embedded.ItemPedidoPK;
 import devops.arquitetura.microservicos.core.domain.model.shared.Domain;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Builder
-@EqualsAndHashCode(onlyExplicitlyIncluded =  true)
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "produto")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public final class Produto implements Domain<Long> {
 
 	private static final long serialVersionUID = 1L;

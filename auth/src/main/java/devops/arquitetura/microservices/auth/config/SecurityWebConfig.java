@@ -23,7 +23,7 @@ public class SecurityWebConfig extends SecurityTokenConfig {
 
 	private final TokenCreator tokenCreator;
 	private final TokenConverter tokenConverter;
-	private final @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService;
+	private final @Qualifier("UserDetailsServiceImpl") UserDetailsService userDetailsService;
 
 	protected @Override void configure(HttpSecurity http) throws Exception {
 

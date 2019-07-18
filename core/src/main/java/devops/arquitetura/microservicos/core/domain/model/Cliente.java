@@ -19,21 +19,33 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import devops.arquitetura.microservicos.core.domain.model.embedded.Historico;
 import devops.arquitetura.microservicos.core.domain.model.enuns.Perfil;
 import devops.arquitetura.microservicos.core.domain.model.shared.Domain;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "cliente")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public final class Cliente implements Domain<Long> {
 

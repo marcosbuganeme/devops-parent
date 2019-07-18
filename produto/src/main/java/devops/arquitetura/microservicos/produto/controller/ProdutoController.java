@@ -70,7 +70,7 @@ public class ProdutoController extends AbstractController<Produto> {
                 .orElse(ResponseEntity.ok(produto));
     }
     
-    @GetMapping()
+    @GetMapping("{nome:\\w+}")
     public ResponseEntity<?> buscarPorNomeDoProduto(@PathVariable String produto) {
 
         List<Produto> resultados = produtoService.buscarPorAutoComplete(produto);

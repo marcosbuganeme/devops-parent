@@ -9,22 +9,26 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import devops.arquitetura.microservicos.core.domain.model.shared.Domain;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "usuario")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class ApplicationUser implements Domain<Long> {
 
@@ -39,18 +43,20 @@ public class ApplicationUser implements Domain<Long> {
 	@NotBlank(message = "Campo 'usuário' deve ser preenchido")
 	private String username;
 
-	@JsonIgnore
 	@ToString.Exclude
 	@Column(nullable = false)
 	@NotBlank(message = "Campo 'senha' deve ser preenchido")
 	private String password;
 
-	private String role;
+	@Builder.Default
+    @Column(nullable = false)
+	@NotNull(message = "Campo 'regra' deve ser preenchido")
+	private String role = "USER";
 
 	public ApplicationUser(@NotNull ApplicationUser applicationUser) {
-		id = applicationUser.id;
-		username = applicationUser.username;
-		password = applicationUser.password;
-		role = applicationUser.role;
+		id = applicationUser.getId();
+		username = applicationUser.getUsername();
+		password = applicationUser.getPassword();
+		role = applicationUser.getRole();
 	}
 }

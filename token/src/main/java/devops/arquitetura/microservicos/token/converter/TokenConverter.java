@@ -38,7 +38,7 @@ public class TokenConverter {
 	@SneakyThrows
 	public void validarTokenAssinado(String tokenAssinado) {
 
-		log.info("Validando assinatur ado token . . .");
+		log.info("Validando assinatura do token . . .");
 
 		SignedJWT signedJWT = SignedJWT.parse(tokenAssinado);
 
